@@ -7,26 +7,62 @@ public class SpawnRandomly : MonoBehaviour
     public GameObject[] prefabs; // Array to hold the prefabs to instantiate
 
     public int numberOfPrefabs = 5; // Number of prefabs to instantiate
-    public float spawnDelay = 0.5f; // Delay between spawning each prefab
+    public float minSpawnDelay = 5f; // Minimum spawn delay
+    public float maxSpawnDelay = 10f; // Maximum spawn delay
+    public float spawnDelay;
     public float moveSpeed = 2f; // Speed of movement between points
     public Transform[] movePoints; // Array of points to move between
     private int currentMovePointIndex = 0; // Index to track the current move point
+    private bool isSpawningAndMoving = false; // Flag to track if spawning and moving are in progress
+
 
     void Start()
     {
+        spawnDelay = Random.Range(minSpawnDelay, maxSpawnDelay);
+
         // Start spawning prefabs and moving between points
         StartCoroutine(SpawnAndMove());
+    }
+
+    private void Update()
+    {
+        spawnDelay = Random.Range(minSpawnDelay, maxSpawnDelay);
     }
 
     IEnumerator SpawnAndMove()
     {
         while (true)
         {
-            // Spawn prefabs at the current position with delay
-            yield return StartCoroutine(SpawnPrefabs());
+            // Check if spawning and moving are not already in progress
+            if (!isSpawningAndMoving)
+            {
+                isSpawningAndMoving = true; // Set the flag to indicate spawning and moving are in progress
 
-            // Move between points
-            yield return MoveBetweenPoints(movePoints[currentMovePointIndex], movePoints[(currentMovePointIndex + 1) % movePoints.Length]);
+                // Spawn prefabs at the current position without delay
+                StartCoroutine(SpawnPrefabs());
+
+                // Move between points
+                yield return MoveBetweenPoints(movePoints[currentMovePointIndex], movePoints[(currentMovePointIndex + 1) % movePoints.Length]);
+
+                isSpawningAndMoving = false; // Reset the flag once spawning and moving are done
+            }
+            else
+            {
+                yield return null; // Wait for the current spawning and moving process to finish
+            }
+        }
+    }
+
+    IEnumerator SpawnPrefabs()
+    {
+        for (int i = 0; i < numberOfPrefabs; i++)
+        {
+            // Instantiate the chosen prefab at the current position
+            GameObject randomPrefab = prefabs[Random.Range(0, prefabs.Length)];
+            GameObject pf = Instantiate(randomPrefab, transform.position, Quaternion.identity);
+
+            // Wait for the specified delay before spawning the next prefab
+            yield return new WaitForSeconds(spawnDelay);
         }
     }
 
@@ -38,40 +74,20 @@ public class SpawnRandomly : MonoBehaviour
 
         while (elapsedTime < journeyTime)
         {
-            transform.position = Vector3.Lerp(startPoint.position, endPoint.position, (elapsedTime / journeyTime));
+            gameObject.transform.position = Vector3.Lerp(startPoint.position, endPoint.position, (elapsedTime / journeyTime));
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        transform.position = endPoint.position; // Ensure it reaches the exact destination
+        gameObject.transform.position = endPoint.position; // Ensure it reaches the exact destination
         currentMovePointIndex = (currentMovePointIndex + 1) % movePoints.Length; // Update current move point index
     }
 
-    IEnumerator SpawnPrefabs()
-    {
-        // Get the bounds of the parent GameObject
-        Bounds bounds = GetComponent<SpriteRenderer>().bounds;
-
-        // Loop to instantiate prefabs
-        for (int i = 0; i < numberOfPrefabs; i++)
-        {
-            // Generate random position within the bounds of the parent GameObject
-            Vector2 randomPosition = new Vector2(Random.Range(bounds.min.x, bounds.max.x), Random.Range(bounds.min.y, bounds.max.y));
-
-            // Choose a random prefab from the array
-            GameObject randomPrefab = prefabs[Random.Range(0, prefabs.Length)];
-
-            // Instantiate the chosen prefab at the random position
-            GameObject pf = Instantiate(randomPrefab, randomPosition, Quaternion.identity, transform);
-
-            // Wait for the specified delay before spawning the next prefab
-            yield return new WaitForSeconds(spawnDelay);
-
-            
-
-        }
-    }
+    
 }
+
+    
+
 
 
 

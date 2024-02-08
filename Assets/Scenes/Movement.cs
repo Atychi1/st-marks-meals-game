@@ -49,7 +49,7 @@ public class Movement : MonoBehaviour
             }
             if (Input.GetKeyUp(KeyCode.LeftShift))
             {
-                moveSpeed = 5;
+                moveSpeed = 10;
             }
 
             else if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
@@ -73,7 +73,7 @@ public class Movement : MonoBehaviour
             }
             if (Input.GetKeyUp(KeyCode.LeftShift))
             {
-                moveSpeed = 5;
+                moveSpeed = 10;
             }
 
             else if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())

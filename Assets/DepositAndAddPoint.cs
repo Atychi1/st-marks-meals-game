@@ -4,20 +4,39 @@ using UnityEngine;
 
 public class DepositAndAddPoint : MonoBehaviour
 {
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // Tag of the GameObject with the CountFood script
+    public string countFoodTag = "Box";
+    
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    // Update is called once per frame
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Box")
+        if (collision.gameObject.CompareTag("Box"))
         {
-            //GameObject go = GameObject.Find("Box");
-            //CountFood countFood = go.GetComponent<CountFood>();
-            //float boxFood = countFood.boxFood;
-            Debug.Log("hey yes i got the food");
+            // Find the GameObject with the CountFood script attached
+            GameObject countFoodObject = GameObject.FindWithTag(countFoodTag);
+            GameObject pointsManager = GameObject.Find("PointsManager");
+            
+            if (countFoodObject != null)
+            {
+                CountFood countFood = countFoodObject.GetComponent<CountFood>();
+                PointsManager pointsManagerpoints = pointsManager.GetComponent<PointsManager>();
+                
+                if (countFood != null && countFood.boxFood == 5)
+                {
+                    countFood.boxFood = 0;
+                    pointsManagerpoints.points++;
+                    Debug.Log("Box deposited! Current food count: " + countFood.boxFood + "points:" + pointsManagerpoints.points);
+                }
+                else
+                {
+                    Debug.Log("Not enough food to deposit!");
+                }
+            }
+            else
+            {
+                Debug.LogError("GameObject with tag " + countFoodTag + " not found.");
+            }
         }
     }
 }
