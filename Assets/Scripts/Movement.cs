@@ -25,11 +25,6 @@ public class Movement : MonoBehaviour
         return false;
     }
 
-    void Start()
-    {
-        
-    }
-
 
     void Update()
     {
@@ -53,7 +48,12 @@ public class Movement : MonoBehaviour
         // Check for sprint
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            moveSpeed += 5;
+            if (Time.timeScale != 0f)
+            {
+                FindObjectOfType<AudioManager>().Play("PlayerSprint");
+                moveSpeed += 5;
+            }
+                
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
         {

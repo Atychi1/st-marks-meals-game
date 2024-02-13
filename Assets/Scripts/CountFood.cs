@@ -14,6 +14,8 @@ public class CountFood : MonoBehaviour
     public Sprite[] filledBoxSprites; // Array of filled box sprites
     public SpriteRenderer boxSpriteRenderer; // Reference to the sprite renderer of the box GameObject
 
+    public PauseMenu pauseMenu; // Reference to the PauseMenu script
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -27,7 +29,6 @@ public class CountFood : MonoBehaviour
         if (boxText != null)
         {
             boxText.text = boxFood.ToString();
-            
         }
     }
 
@@ -46,7 +47,6 @@ public class CountFood : MonoBehaviour
     {
         if (boxFood == 5)
         {
-            
             Debug.Log(boxFood);
         }
         else
@@ -58,15 +58,11 @@ public class CountFood : MonoBehaviour
                 Debug.Log(boxFood);
                 UpdateLifeUI();
                 UpdateBoxSprite();
+                FindObjectOfType<AudioManager>().Play("GoodFoodHit");
             }
             else if (collision.gameObject.tag == "BadFood")
             {
-                Destroy(collision.gameObject);
-                boxFood = 0;
-                Debug.Log(boxFood);
-                life--;
-                UpdateLifeUI();
-                UpdateBoxSprite(); // Update UI when life changes
+                StartCoroutine(BadFoodCollisionDelay(collision.gameObject));
             }
             else if (collision.gameObject.tag == "Food" && life >= 3)
             {
@@ -74,9 +70,35 @@ public class CountFood : MonoBehaviour
                 boxFood++;
                 Debug.Log(boxFood);
                 UpdateBoxSprite();
+                FindObjectOfType<AudioManager>().Play("GoodFoodHit");
             }
         }
         UpdateBoxSprite(); // Update box sprite after each collision
+
+        
+    }
+
+    private IEnumerator BadFoodCollisionDelay(GameObject foodObject)
+    {
+        // Execute all actions associated with "BadFood" collision
+        Destroy(foodObject);
+        boxFood = 0;
+        Debug.Log(boxFood);
+        FindObjectOfType<AudioManager>().Play("BadFoodHit");
+
+        // Add a delay
+        yield return new WaitForSeconds(1.0f); // Adjust the delay time as needed
+
+        // Update the life UI after the delay
+        life--;
+        UpdateLifeUI();
+        UpdateBoxSprite(); // Update UI when life changes
+        FindObjectOfType<AudioManager>().Play("LifeShatter");
+        
+        if (life == 0)
+        {
+            pauseMenu.GameOver(); // Call ShowGameOver method in PauseMenu script
+        }
     }
 
     private void ChangeBoxSprite()

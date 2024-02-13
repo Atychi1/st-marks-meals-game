@@ -33,13 +33,16 @@ public class PlayerController : MonoBehaviour
         }
 
         // Flip the sprite and animation when running left
-        if (horizontalInput < 0)
+        if (Time.timeScale != 0f) // Check if the game is not paused
         {
-            spriteRenderer.flipX = true;
-        }
-        else if (horizontalInput > 0)
-        {
-            spriteRenderer.flipX = false;
+            if (horizontalInput < 0)
+            {
+                spriteRenderer.flipX = true;
+            }
+            else if (horizontalInput > 0)
+            {
+                spriteRenderer.flipX = false;
+            }
         }
     }
 

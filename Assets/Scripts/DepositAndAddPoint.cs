@@ -14,7 +14,7 @@ public class DepositAndAddPoint : MonoBehaviour
         {
             // Find the GameObject with the CountFood script attached
             GameObject countFoodObject = GameObject.FindWithTag(countFoodTag);
-            GameObject pointsManager = GameObject.Find("PointsManager");
+            GameObject pointsManager = GameObject.Find("GeneralManager");
 
             if (countFoodObject != null)
             {
