@@ -65,5 +65,6 @@ public class PauseMenu : MonoBehaviour
         gameCanvas.SetActive(false); // Disable the game canvas
         deadCanvas.SetActive(true);
         FindObjectOfType<AudioManager>().Play("GameOver");
+        FindObjectOfType<AudioManager>().Stop("MainTheme");
     }
 }

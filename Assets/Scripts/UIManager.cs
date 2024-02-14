@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+    // Reference to your canvases
     public GameObject mainCanvas;
     public GameObject optionsCanvas;
     public GameObject creditsCanvas;
@@ -15,8 +16,10 @@ public class UIManager : MonoBehaviour
         mainCanvas.SetActive(true);
         optionsCanvas.SetActive(false);
         creditsCanvas.SetActive(false);
-    }
 
+        FindObjectOfType<AudioManager>().Play("MenuTheme");
+        FindObjectOfType<AudioManager>().Stop("MainTheme");
+    }
     public void OnPlayButtonPressed()
     {
         SceneManager.LoadScene("MainScene");

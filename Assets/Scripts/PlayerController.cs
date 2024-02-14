@@ -11,10 +11,21 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private bool isRunning = false;
 
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator.SetBool("IsRunning", false); // Make sure the animation starts with the idle state
+
+        AudioManager audioManager = AudioManager.Instance;
+        if (audioManager != null && audioManager.IsPlaying("MenuTheme"))
+        {
+            audioManager.Stop("MenuTheme");
+        }
+
+        audioManager.Play("MainTheme");
+
+
     }
 
     void Update()

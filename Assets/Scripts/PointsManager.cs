@@ -33,10 +33,7 @@ public class PointsManager : MonoBehaviour
         UpdateHighScore();
         UpdateFinalScore();
         
-        if (Input.GetKey(KeyCode.P))
-        {
-            ResetHighestScore();
-        }
+        
     }
 
     // Call this method to update the final score text

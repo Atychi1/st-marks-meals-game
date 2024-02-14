@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a75ebdc5644c0e4aac83f24dbbbb5e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultMixerGroup: {fileID: 0}
+  mixerGroups: []
   sounds:
   - name: PlayerSprint
     clip: {fileID: 8300000, guid: 88934afdbbc772448894cea214edee14, type: 3}
@@ -51,27 +53,47 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+    mixerGroupIndex: 0
   - name: GameOver
     clip: {fileID: 8300000, guid: 63600609dc8093844a4787fd8dc49814, type: 3}
-    volume: 0.48
+    volume: 0.514
     pitch: 1
     loop: 0
     source: {fileID: 0}
+    mixerGroupIndex: 0
   - name: GoodFoodHit
     clip: {fileID: 8300000, guid: 76a129f08ff875349b6c0b8a60726e4d, type: 3}
     volume: 0.344
     pitch: 1
     loop: 0
     source: {fileID: 0}
+    mixerGroupIndex: 0
   - name: BadFoodHit
     clip: {fileID: 8300000, guid: 1320545c3a1609146bef81368e2017ae, type: 3}
     volume: 0.311
     pitch: 1
     loop: 0
     source: {fileID: 0}
+    mixerGroupIndex: 0
   - name: LifeShatter
     clip: {fileID: 8300000, guid: 935ccacffd1cd4d4c8e847993bc2503d, type: 3}
     volume: 0.311
     pitch: 1
     loop: 0
     source: {fileID: 0}
+    mixerGroupIndex: 0
+  - name: MenuTheme
+    clip: {fileID: 8300000, guid: bac0dd36f2906404093c30734ba18edf, type: 3}
+    volume: 0.311
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+    mixerGroupIndex: 0
+  - name: MainTheme
+    clip: {fileID: 8300000, guid: f62e9460244f42540b618c0902430a63, type: 3}
+    volume: 0.307
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+    mixerGroupIndex: 0
+  audioMixer: {fileID: 24100000, guid: 6d7235764f47c7441bf1d22e4082a0aa, type: 2}
